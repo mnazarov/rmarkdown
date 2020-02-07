@@ -527,7 +527,8 @@ render <- function(input,
     if (!is.null(output_format$post_knit)) {
       post_knit_extra_args <- output_format$post_knit(front_matter,
                                                       knit_input,
-                                                      runtime)
+                                                      runtime,
+                                                      encoding = 'UTF-8')
     } else {
       post_knit_extra_args <- NULL
     }
@@ -911,6 +912,7 @@ render <- function(input,
       convert(texfile, run_citeproc && !need_bibtex)
       # patch the .tex output generated from the default Pandoc LaTeX template
       if (!("--template" %in% output_format$pandoc$args)) patch_tex_output(texfile)
+      fix_horiz_rule(texfile)
       # unless the output file has the extension .tex, we assume it is PDF
       if (!grepl('[.]tex$', output_file)) {
         latexmk(texfile, output_format$pandoc$latex_engine, '--biblatex' %in% output_format$pandoc$args)

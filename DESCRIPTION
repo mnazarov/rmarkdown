@@ -1,7 +1,7 @@
 Package: rmarkdown
 Type: Package
 Title: Dynamic Documents for R
-Version: 1.18.5
+Version: 2.1.1
 Authors@R: c(
   person("JJ", "Allaire", role = "aut", email = "jj@rstudio.com"),
   person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
@@ -15,12 +15,13 @@ Authors@R: c(
   person("Richard", "Iannone", role = "aut", email = "rich@rstudio.com", comment = c(ORCID = "0000-0003-3925-190X")),
   #
   # Contributors, ordered alphabetically by first name
-  person("Andrew", "Dunning", role = "ctb"),
+  person("Andrew", "Dunning", role = "ctb", comment = c(ORCID = "0000-0003-0464-5036")),
   person("Atsushi", "Yasumoto", role = "ctb", comment = c(ORCID = "0000-0002-8335-495X")),
   person("Barret", "Schloerke", role = "ctb"),
   person("Christophe", "Dervieux", role = "ctb"),
   person("Frederik", "Aust", role = "ctb", email = "frederik.aust@uni-koeln.de", comment = c(ORCID = "0000-0003-4900-788X")),
   person("Jeff", "Allen", role = "ctb", email = "jeff@rstudio.com"),
+  person("JooYoung", "Seo", role="ctb", comment = c(ORCID = "0000-0002-4064-6012")),
   person("Malcolm", "Barrett", role = "ctb"),
   person("Rob", "Hyndman", role = "ctb", email = "Rob.Hyndman@monash.edu"),
   person("Romain", "Lesur", role = "ctb"),
@@ -29,7 +30,7 @@ Authors@R: c(
   person("Sergio", "Oller", role = "ctb"),
   #
   # Copyright holders
-  person(family = "RStudio, Inc.", role = "cph"),
+  person(family = "RStudio, PBC", role = "cph"),
   person(family = "jQuery Foundation", role = "cph",
          comment = "jQuery library"),
   person(family = "jQuery contributors", role = c("ctb", "cph"),
@@ -105,6 +106,6 @@ SystemRequirements: pandoc (>= 1.12.3) - http://pandoc.org
 URL: https://github.com/rstudio/rmarkdown
 BugReports: https://github.com/rstudio/rmarkdown/issues
 License: GPL-3
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
 Encoding: UTF-8
 VignetteBuilder: knitr

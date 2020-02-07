@@ -156,7 +156,7 @@ pdf_document <- function(toc = FALSE,
     # make sure --include-in-header from command line will not completely
     # override header-includes in metadata but give the latter lower precedence:
     # https://github.com/rstudio/rmarkdown/issues/1359
-    args <- append_in_header(metadata[["header-includes"]])
+    args <- append_in_header(process_header_includes(metadata))
 
     # use a geometry filter when we are using the "default" template
     if (identical(template, "default")) {
@@ -244,6 +244,21 @@ patch_tex_output <- function(file) {
   write_utf8(x, file)
 }
 
+# patch output from Pandoc < 2.8: https://github.com/jgm/pandoc/issues/5801
+fix_horiz_rule <- function(file) {
+  if (pandoc_available('2.8')) return()
+  x <- read_utf8(file)
+  i <- x == '\\begin{center}\\rule{0.5\\linewidth}{\\linethickness}\\end{center}'
+  if (any(i)) {
+    x[i] <- '\\begin{center}\\rule{0.5\\linewidth}{0.5pt}\\end{center}'
+    write_utf8(x, file)
+  }
+}
+
+process_header_includes <- function(x) {
+  x <- unlist(x[["header-includes"]])
+  gsub('(^|\n)\\s*```\\{=latex\\}\n(.+?\n)```\\s*(\n|$)', '\\1\\2\\3', x)
+}
 
 #' @param ... Arguments passed to \code{pdf_document()}.
 #' @rdname pdf_document

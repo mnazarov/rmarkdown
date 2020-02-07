@@ -13,7 +13,8 @@
 #'   \code{\link{render_supporting_files}}
 #' @param df_print Method to be used for printing data frames. Valid values
 #'   include "default", "kable", "tibble", and "paged". The "default" method
-#'   uses \code{print.data.frame}. The "kable" method uses the
+#'   uses a corresponding S3 method of \code{print}, typically
+#'   \code{print.data.frame}. The "kable" method uses the
 #'   \code{\link[knitr:kable]{knitr::kable}} function. The "tibble" method uses
 #'   the \pkg{tibble} package to print a summary of the data frame. The "paged"
 #'   method creates a paginated HTML table (note that this method is only valid
@@ -657,9 +658,10 @@ enumerate_output_formats <- function(input, envir, encoding, output_yaml = NULL)
 
 #' Parse the YAML front matter from a file
 #' @inheritParams default_output_format
+#' @inheritParams render
 #' @keywords internal
 #' @export
-yaml_front_matter <- function(input) {
+yaml_front_matter <- function(input, encoding = 'UTF-8') {
   parse_yaml_front_matter(read_utf8(input))
 }
 
@@ -698,11 +700,15 @@ partition_yaml_front_matter <- function(input_lines) {
     if (length(delimiters) >= 2 &&
         (delimiters[2] - delimiters[1] > 1) &&
         grepl("^---\\s*$", input_lines[delimiters[1]])) {
-      # verify that it's truly front matter (not preceded by other content)
-      if (delimiters[1] == 1)
+      # verify that it's truly front matter, not preceded by
+      # other content except blank lines or special comments
+      # in html_notebook's intermediate .knit.md
+      if (delimiters[1] == 1) {
         TRUE
-      else
-        is_blank(input_lines[1:delimiters[1] - 1])
+      } else all(grepl(
+        "^\\s*(<!-- rnb-\\w*-(begin|end) -->)?\\s*$",
+        input_lines[1:delimiters[1] - 1]
+      ))
     } else {
       FALSE
     }
